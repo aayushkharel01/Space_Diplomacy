@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Saves Lives | Communication Campaign</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --primary-dark: #0a1628;
+      --primary-blue: #1a365d;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #818cf8;
+      --text-light: #e2e8f0;
+      --text-muted: #94a3b8;
+      --success-green: #4ade80;
+      --warning-orange: #fbbf24;
+      --danger-red: #f87171;
+    }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--primary-dark);
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+    
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 22, 40, 0.98);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+    
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--accent-cyan);
+    }
+    
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+      top: -200px;
+      right: -200px;
+      animation: pulse 8s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+    }
+    
+    .badge {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.5rem 1.25rem;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      max-width: 900px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .tagline {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      color: var(--warning-orange);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .btn {
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+      display: inline-block;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: var(--primary-dark);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(56, 189, 248, 0.4);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+    
+    .btn-outline:hover {
+      background: rgba(56, 189, 248, 0.1);
+    }
+    
+    .stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-num {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    
+    /* Sections */
+    section {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .section-tag {
+      color: var(--accent-cyan);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.75rem;
+    }
+    
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin-bottom: 1rem;
+    }
+    
+    .section-header p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+    
+    /* Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .card {
+      background: linear-gradient(135deg, rgba(26, 54, 93, 0.5), rgba(10, 22, 40, 0.8));
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-cyan);
+    }
+    
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent-cyan);
+    }
+    
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    
+    .card-btn {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .card-btn:hover {
+      background: var(--accent-cyan);
+      color: var(--primary-dark);
+    }
+    
+    /* Expandable cards */
+    .tech-card {
+      background: rgba(26, 54, 93, 0.4);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .tech-card-header {
+      padding: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+    
+    .tech-card-header:hover {
+      background: rgba(56, 189, 248, 0.05);
+    }
+    
+    .tech-card-header h3 {
+      font-size: 1.25rem;
+      color: var(--accent-cyan);
+    }
+    
+    .expand-icon {
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+    
+    .tech-card.expanded .expand-icon {
+      transform: rotate(45deg);
+    }
+    
+    .tech-card-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+      padding: 0 1.5rem;
+    }
+    
+    .tech-card.expanded .tech-card-content {
+      max-height: 2000px;
+      padding: 0 1.5rem 1.5rem;
+    }
+    
+    /* Table */
+    .table-container {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border-radius: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(26, 54, 93, 0.3);
+    }
+    
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+    }
+    
+    th {
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
+    
+    .yes { color: var(--success-green); font-weight: 600; }
+    .no { color: var(--danger-red); font-weight: 600; }
+    
+    /* Map Section */
+    #map-section {
+      background: var(--primary-blue);
+      padding: 5rem 2rem;
+    }
+    
+    .map-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    #map {
+      height: 600px;
+      border-radius: 16px;
+      border: 2px solid rgba(56, 189, 248, 0.3);
+    }
+    
+    .map-sidebar {
+      background: rgba(10, 22, 40, 0.8);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    
+    .map-stats {
+      margin-bottom: 2rem;
+    }
+    
+    .map-stat {
+      margin-bottom: 1.5rem;
+    }
+    
+    .map-stat-num {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      display: block;
+    }
+    
+    .map-stat-label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    #support-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    #support-form input,
+    #support-form select {
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    
+    #support-form input:focus,
+    #support-form select:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+    }
+    
+    /* Charts Section */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .chart-panel {
+      background: rgba(26, 54, 93, 0.4);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    
+    .chart-panel h3 {
+      color: var(--accent-cyan);
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+    }
+    
+    .chart-panel canvas {
+      max-height: 300px;
+    }
+    
+    /* Videos Grid */
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .video-card {
+      background: rgba(26, 54, 93, 0.4);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .video-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-cyan);
+    }
+    
+    .video-thumbnail {
+      position: relative;
+      padding-top: 56.25%;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4rem;
+      color: var(--accent-cyan);
+      opacity: 0.8;
+      transition: all 0.3s;
+    }
+    
+    .video-card:hover .play-icon {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    
+    .video-info {
+      padding: 1.5rem;
+    }
+    
+    .video-info h4 {
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+    
+    .video-info p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    /* Case Studies Timeline */
+    .timeline {
+      position: relative;
+      margin-top: 3rem;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+      transform: translateX(-50%);
+    }
+    
+    .case-study {
+      position: relative;
+      margin-bottom: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    
+    .case-study:nth-child(even) .case-content {
+      order: 2;
+    }
+    
+    .case-study::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 20px;
+      height: 20px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 20px var(--accent-cyan);
+      z-index: 1;
+    }
+    
+    .case-content {
+      background: rgba(26, 54, 93, 0.4);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    
+    .case-content h3 {
+      color: var(--accent-cyan);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+    
+    .case-content h4 {
+      color: var(--text-light);
+      margin: 1.5rem 0 0.75rem;
+      font-size: 1.1rem;
+    }
+    
+    .case-content p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    
+    .lesson-box {
+      background: rgba(251, 191, 36, 0.1);
+      border-left: 3px solid var(--warning-orange);
+      padding: 1rem;
+      margin-top: 1.5rem;
+      border-radius: 8px;
+    }
+    
+    .lesson-box strong {
+      color: var(--warning-orange);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Pledge Section */
+    .pledge-section {
+      max-width: 800px;
+      margin: 3rem auto;
+      background: rgba(26, 54, 93, 0.4);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 16px;
+      padding: 3rem;
+    }
+    
+    .pledge-section h3 {
+      color: var(--accent-cyan);
+      margin-bottom: 2rem;
+      font-size: 1.75rem;
+      text-align: center;
+    }
+    
+    .pledge-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+    
+    .pledge-item:hover {
+      background: rgba(56, 189, 248, 0.05);
+    }
+    
+    .pledge-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+    
+    .pledge-item label {
+      flex: 1;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    #take-pledge-btn {
+      width: 100%;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+    }
+    
+    #take-pledge-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .pledge-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      background: rgba(74, 222, 128, 0.1);
+      border: 2px solid var(--success-green);
+      border-radius: 12px;
+      margin-top: 2rem;
+    }
+    
+    .pledge-success.visible {
+      display: block;
+    }
+    
+    .pledge-success h4 {
+      color: var(--success-green);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    /* Action Steps */
+    .action-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .step-card {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(26, 54, 93, 0.4);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 16px;
+      transition: all 0.3s;
+    }
+    
+    .step-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-cyan);
+    }
+    
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: var(--primary-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 auto 1.5rem;
+    }
+    
+    .step-card h4 {
+      margin-bottom: 1rem;
+      color: var(--text-light);
+    }
+    
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    
+    footer p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: var(--primary-blue);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--primary-dark);
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+      }
+      .nav-links.active { display: flex; }
+      .map-container { grid-template-columns: 1fr; }
+      #map { height: 400px; }
+      .charts-grid { grid-template-columns: 1fr; }
+      .timeline::before { left: 0; }
+      .case-study { grid-template-columns: 1fr; }
+      .case-study::before { left: 0; transform: translateY(-50%); }
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    /* Confetti */
+    @keyframes confetti-fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+    
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--accent-cyan);
+      animation: confetti-fall 3s linear;
+      pointer-events: none;
+      z-index: 3000;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">🛰️ Space Saves Lives</div>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#learn" class="nav-link">Learn</a></li>
+        <li><a href="#map-section" class="nav-link">Global Map</a></li>
+        <li><a href="#analytics" class="nav-link">Analytics</a></li>
+        <li><a href="#videos" class="nav-link">Videos</a></li>
+        <li><a href="#cases" class="nav-link">Case Studies</a></li>
+        <li><a href="#action" class="nav-link">Take Action</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero" id="home">
+    <div class="badge">🌍 Space Diplomacy Communication Campaign</div>
+    <p class="tagline">Natural disasters don't wait. Neither should life-saving information.</p>
+    <h1>Space Saves Lives: Why Every Second Counts in Disaster Response</h1>
+    <p>A global student movement demanding faster, smarter disaster response through space-based Standard Operating Procedures</p>
+    <div class="hero-btns">
+      <a href="#learn" class="btn btn-primary">Explore the Evidence</a>
+      <a href="#action" class="btn btn-outline">Join the Movement</a>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num" id="supporterCount">0</span>
+        <span class="stat-label">Global Supporters</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="countryCount">0</span>
+        <span class="stat-label">Countries Represented</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="pledgeCount">0</span>
+        <span class="stat-label">Pledges Taken</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Story Section -->
+  <section>
+    <div class="section-header">
+      <div class="section-tag">My Story</div>
+      <h2>April 25, 2015: The Day That Changed Everything</h2>
+    </div>
+    <div style="max-width: 800px; margin: 0 auto; font-size: 1.05rem; line-height: 1.9;">
+      <p style="margin-bottom: 1.5rem;">I remember April 25, 2015. I was in Kathmandu when the ground began to shake.</p>
+      <p style="margin-bottom: 1.5rem;">The earthquake lasted less than a minute. But in that minute, the world changed. Buildings collapsed. Roads cracked open. Communication towers fell silent. And then came the hardest part: <strong style="color: var(--warning-orange);">the waiting</strong>.</p>
+      <p style="margin-bottom: 1.5rem;">We waited for information. We waited to know which areas were hit hardest. We waited to know where rescue teams should go first. We waited while satellite data traveled through bureaucratic channels, across borders, through approval processes.</p>
+      <p style="margin-bottom: 1.5rem; color: var(--danger-red); font-weight: 600; font-size: 1.15rem;">We waited while people died under rubble.</p>
+      <p style="margin-bottom: 1.5rem;">This is the cost of slow information. This is why space-based disaster response isn't just about technology—it's about the <strong style="color: var(--accent-cyan);">Golden Period</strong>, those critical 72 hours when survival rates plummet with every passing minute.</p>
+      <p style="margin-bottom: 1.5rem;">Three hours after the Nepal earthquake, the International Charter "Space and Major Disasters" was activated. Satellites began capturing images. But the data took time to process. Time to analyze. Time to distribute.</p>
+      <p style="margin-bottom: 0; font-weight: 600; color: var(--warning-orange); font-size: 1.1rem;">Time we didn't have.</p>
+    </div>
+  </section>
+
+  <!-- Learn Section -->
+  <section id="learn">
+    <div class="section-header">
+      <div class="section-tag">Understanding the Technology</div>
+      <h2>Learn the Basics: Space Technology That Saves Lives</h2>
+      <p>Before we can demand change, we must understand the tools. Here's what you need to know.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-header" onclick="toggleCard(this)">
+        <h3>📡 What is SAR (Synthetic Aperture Radar)?</h3>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="tech-card-content">
+        <p style="margin-bottom: 1rem;"><strong style="color: var(--accent-cyan);">SAR is the technology that sees through darkness and clouds.</strong></p>
+        <p style="margin-bottom: 1rem;">When disasters strike, they rarely come with clear skies. Floods bring rain. Wildfires create smoke. Earthquakes trigger dust clouds. Optical cameras become useless.</p>
+        <p style="margin-bottom: 1rem;">SAR doesn't need light. It sends radar signals down to Earth and measures what bounces back. This means:</p>
+        <ul style="margin-left: 2rem; margin-bottom: 1rem; color: var(--text-muted);">
+          <li>It works at night</li>
+          <li>It penetrates clouds and smoke</li>
+          <li>It detects water through vegetation (critical for floods)</li>
+          <li>It measures ground movement with millimeter precision</li>
+        </ul>
+        <p>During floods, SAR satellites can map the exact extent of water coverage within hours, showing rescue teams which roads are passable and which communities are isolated.</p>
+      </div>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-header" onclick="toggleCard(this)">
+        <h3>🛰️ What Are Earth Observation (EO) Satellites?</h3>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="tech-card-content">
+        <p style="margin-bottom: 1rem;"><strong style="color: var(--accent-cyan);">EO satellites are our eyes in the sky—constantly watching, constantly ready.</strong></p>
+        <p style="margin-bottom: 1rem;">Earth Observation satellites orbit our planet continuously, capturing:</p>
+        <ul style="margin-left: 2rem; margin-bottom: 1rem; color: var(--text-muted);">
+          <li>High-resolution images of terrain and infrastructure</li>
+          <li>Thermal data that detects wildfires before they spread</li>
+          <li>Atmospheric data that tracks cyclones and hurricanes</li>
+          <li>Land deformation that monitors volcanic activity</li>
+        </ul>
+        <p style="margin-bottom: 1rem;">The International Charter has access to satellites from 17 space agencies. When disaster strikes, these satellites redirect their sensors to the affected area.</p>
+        <p><strong style="color: var(--warning-orange);">The problem:</strong> Without local ground stations and processing facilities, data travels halfway around the world before anyone can use it.</p>
+      </div>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-header" onclick="toggleCard(this)">
+        <h3>📍 How GNSS Supports Early Warning</h3>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="tech-card-content">
+        <p style="margin-bottom: 1rem;"><strong style="color: var(--accent-cyan);">GNSS isn't just GPS for your phone—it's a lifeline for disaster warnings.</strong></p>
+        <p style="margin-bottom: 1rem;">GNSS (Global Navigation Satellite Systems) stations detect:</p>
+        <ul style="margin-left: 2rem; margin-bottom: 1rem; color: var(--text-muted);">
+          <li>Ground deformation before volcanic eruptions</li>
+          <li>Tsunami wave propagation across oceans</li>
+          <li>Landslide movement on unstable slopes</li>
+          <li>Tectonic plate shifts that signal seismic activity</li>
+        </ul>
+        <p>When the 2011 Tohoku earthquake struck Japan, GNSS stations detected the ground displacement within minutes. This data fed directly into tsunami warning systems, giving coastal communities precious minutes to evacuate.</p>
+      </div>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-header" onclick="toggleCard(this)">
+        <h3>⚙️ What Are Space-Based SOPs?</h3>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="tech-card-content">
+        <p style="margin-bottom: 1rem;"><strong style="color: var(--accent-cyan);">SOPs (Standard Operating Procedures) are the protocols that eliminate delays.</strong></p>
+        <p style="margin-bottom: 1rem;">A Space-Based SOP is a pre-agreed, automated system that:</p>
+        <ol style="margin-left: 2rem; margin-bottom: 1rem; color: var(--text-muted);">
+          <li>Detects disaster onset (earthquake sensors, cyclone tracking, flood alerts)</li>
+          <li>Automatically activates satellite imaging without waiting for human approval</li>
+          <li>Processes data locally using in-country facilities</li>
+          <li>Delivers actionable maps to rescue teams within 6-12 hours</li>
+        </ol>
+        <p style="margin-bottom: 1rem;">Right now, most countries require manual activation. Someone must call the International Charter. Someone must approve the request. Someone must task the satellites. Each step takes time.</p>
+        <p style="font-weight: 600; color: var(--warning-orange);">With automated SOPs, satellites activate the moment sensors detect disaster. Data flows directly to local emergency centers. Rescue teams receive maps within the Golden Period.</p>
+      </div>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-header" onclick="toggleCard(this)">
+        <h3>⚡ Why "Automatic Activation" Matters</h3>
+        <span class="expand-icon">+</span>
+      </div>
+      <div class="tech-card-content">
+        <p style="margin-bottom: 1rem;"><strong style="color: var(--danger-red);">Every minute of delay costs lives.</strong></p>
+        <p style="margin-bottom: 1rem;">In the first 24 hours after a major earthquake:</p>
+        <ul style="margin-left: 2rem; margin-bottom: 1rem; color: var(--text-muted);">
+          <li><strong style="color: var(--success-green);">90% of survivors</strong> trapped under rubble can be rescued alive</li>
+          <li>After 48 hours, survival rates drop to <strong style="color: var(--warning-orange);">50%</strong></li>
+          <li>After 72 hours—the end of the Golden Period—<strong style="color: var(--danger-red);">survival becomes rare</strong></li>
+        </ul>
+        <p style="margin-bottom: 1rem;">Manual activation processes add 6-18 hours of delay. That's the difference between finding someone alive and arriving too late.</p>
+        <p style="font-weight: 600;">The technology exists. The barrier is political will, not technical capability.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 3rem;">
+      <h3 style="color: var(--accent-cyan); margin-bottom: 1.5rem; font-size: 1.5rem; text-align: center;">Monitoring vs. Prediction: What Space Can Really Do</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Disaster Type</th>
+              <th>Predictable?</th>
+              <th>Monitorable?</th>
+              <th>Space Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🌀 Cyclones/Hurricanes</td>
+              <td class="yes">✓ Days ahead</td>
+              <td class="yes">✓ Yes</td>
+              <td>Track path, intensity, landfall timing</td>
+            </tr>
+            <tr>
+              <td>🌊 Floods</td>
+              <td class="yes">✓ Hours to days</td>
+              <td class="yes">✓ Yes</td>
+              <td>SAR imagery penetrates clouds</td>
+            </tr>
+            <tr>
+              <td>🌋 Volcanic Activity</td>
+              <td class="yes">✓ Partial (precursors)</td>
+              <td class="yes">✓ Yes</td>
+              <td>Ground deformation, thermal anomalies</td>
+            </tr>
+            <tr>
+              <td>🔥 Wildfires</td>
+              <td class="no">✗ Cannot predict ignition</td>
+              <td class="yes">✓ Yes</td>
+              <td>Real-time spread tracking, hotspots</td>
+            </tr>
+            <tr>
+              <td>🏚️ Earthquakes</td>
+              <td class="no">✗ No reliable prediction</td>
+              <td class="yes">✓ Post-event only</td>
+              <td>Damage mapping, not prediction</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-style: italic;">Note: Earthquakes cannot be reliably predicted despite decades of research. This makes rapid response systems even more critical.</p>
+    </div>
+  </section>
+
+  <!-- Global Support Map Section -->
+  <section id="map-section">
+    <div class="section-header">
+      <div class="section-tag">Join the Movement</div>
+      <h2>Global Support Map</h2>
+      <p>Every pin represents a voice demanding faster disaster response. Add yours and show policymakers this is a global movement.</p>
+    </div>
+    <div class="map-container">
+      <div id="map"></div>
+      <div class="map-sidebar">
+        <div class="map-stats">
+          <div class="map-stat">
+            <span class="map-stat-num" id="mapSupporters">0</span>
+            <span class="map-stat-label">Total Supporters</span>
+          </div>
+          <div class="map-stat">
+            <span class="map-stat-num" id="mapCountries">0</span>
+            <span class="map-stat-label">Countries Represented</span>
+          </div>
+        </div>
+        <form id="support-form" onsubmit="addSupporter(event)">
+          <h3 style="color: var(--accent-cyan); margin-bottom: 1rem;">Add Your Support</h3>
+          <input type="text" id="name" placeholder="Your Name" required>
+          <input type="email" id="email" placeholder="Email" required>
+          <select id="country" required>
+            <option value="">Select Country</option>
+          </select>
+          <input type="text" id="university" placeholder="University (optional)">
+          <button type="submit" class="btn btn-primary">Join the Movement</button>
+        </form>
+        <div id="form-success" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(74, 222, 128, 0.1); border: 1px solid var(--success-green); border-radius: 8px; color: var(--success-green); text-align: center;">
+          ✓ Thank you! Your support has been added to the map.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Analytics Section -->
+  <section id="analytics">
+    <div class="section-header">
+      <div class="section-tag">Movement in Numbers</div>
+      <h2>Tracking Global Support</h2>
+      <p>Data tells a story. Watch as this movement grows across countries and continents.</p>
+    </div>
+    <div class="charts-grid">
+      <div class="chart-panel">
+        <h3>Top Participating Countries</h3>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-panel">
+        <h3>Regional Distribution</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-panel" style="grid-column: 1 / -1;">
+        <h3>Movement Growth Over Time</h3>
+        <canvas id="lineChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Videos Section -->
+  <section id="videos">
+    <div class="section-header">
+      <div class="section-tag">Video Learning Hub</div>
+      <h2>Watch, Learn, Share</h2>
+      <p>Curated videos explaining how space systems save lives—from satellite launches to emergency response.</p>
+    </div>
+    <div class="videos-grid">
+      <div class="video-card" onclick="openVideoModal('SAR Technology')">
+        <div class="video-thumbnail">
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <h4>How SAR Satellites See Through Clouds</h4>
+          <p>Explains the physics behind Synthetic Aperture Radar and why it's critical for flood and earthquake response.</p>
+        </div>
+      </div>
+      
+      <div class="video-card" onclick="openVideoModal('Nepal 2015')">
+        <div class="video-thumbnail">
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <h4>The International Charter in Action: 2015 Nepal Earthquake</h4>
+          <p>Documentary following the Charter's activation during Nepal's devastating earthquake.</p>
+        </div>
+      </div>
+      
+      <div class="video-card" onclick="openVideoModal('Sentinel Satellites')">
+        <div class="video-thumbnail">
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <h4>How Sentinel Satellites Monitor Earth 24/7</h4>
+          <p>Overview of ESA's Sentinel constellation providing free, open data for disaster monitoring.</p>
+        </div>
+      </div>
+      
+      <div class="video-card" onclick="openVideoModal('Japan Warning')">
+        <div class="video-thumbnail">
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <h4>Japan's Earthquake Early Warning System</h4>
+          <p>How automated SOPs work in practice—combining seismic sensors with satellite GNSS.</p>
+        </div>
+      </div>
+      
+      <div class="video-card" onclick="openVideoModal('Cyclone Tracking')">
+        <div class="video-thumbnail">
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <h4>Tracking Cyclones from Space</h4>
+          <p>How meteorological satellites enable evacuation days in advance by tracking storm paths.</p>
+        </div>
+      </div>
+      
+      <div class="video-card" onclick="openVideoModal('Wildfire Monitoring')">
+        <div class="video-thumbnail">
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="video-info">
+          <h4>Wildfire Monitoring with Thermal Satellites</h4>
+          <p>Thermal imaging detects fires before smoke is visible, helping predict spread patterns.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case Studies Section -->
+  <section id="cases">
+    <div class="section-header">
+      <div class="section-tag">Real Disasters, Real Lessons</div>
+      <h2>When Seconds Decide: Case Studies</h2>
+      <p>These aren't hypothetical scenarios. These are real disasters where satellite data played a critical role—and where faster SOPs could have saved more lives.</p>
+    </div>
+    
+    <div class="timeline">
+      <div class="case-study">
+        <div class="case-content">
+          <h3>Nepal Earthquake (April 25, 2015)</h3>
+          <h4>What Happened</h4>
+          <p>At 11:56 AM local time, a 7.8 magnitude earthquake struck central Nepal. Over 9,000 people died. 8 million were affected. Infrastructure collapsed across Kathmandu Valley.</p>
+          
+          <h4>Satellite Response</h4>
+          <p>International Charter activated within 3 hours. Satellites from ESA, NASA, JAXA captured optical and SAR images. Over 3,000 landslides mapped. Damage assessment maps delivered within 48 hours.</p>
+          
+          <div class="lesson-box">
+            <strong>The Lesson</strong>
+            <p>If Nepal had automated satellite activation triggered by seismic sensors and local ground stations, emergency maps could have reached rescue teams within 6-12 hours instead of 48. That difference is measured in lives.</p>
+          </div>
+        </div>
+        <div></div>
+      </div>
+      
+      <div class="case-study">
+        <div></div>
+        <div class="case-content">
+          <h3>European Floods (July 2021)</h3>
+          <h4>What Happened</h4>
+          <p>Extreme rainfall caused catastrophic flooding across Germany and Belgium. Rivers overflowed. Towns were submerged. 220 people died, many because they didn't evacuate in time.</p>
+          
+          <h4>Satellite Response</h4>
+          <p>Copernicus Emergency Management Service activated. SAR satellites (Sentinel-1) mapped flood extent in real-time. Data delivered to emergency services within 12 hours. Updated maps every few hours.</p>
+          
+          <div class="lesson-box">
+            <strong>The Lesson</strong>
+            <p>Even with excellent satellite infrastructure, the "last mile" matters. Space-based SOPs must connect to local emergency broadcast systems, mobile alerts, and community-level warning networks.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="case-study">
+        <div class="case-content">
+          <h3>Hurricane Dorian (September 2019)</h3>
+          <h4>What Happened</h4>
+          <p>Category 5 hurricane devastated the Bahamas, causing catastrophic damage and at least 70 deaths. The storm stalled over the islands for 24 hours.</p>
+          
+          <h4>Satellite Response</h4>
+          <p>NOAA and NASA satellites tracked the hurricane from formation. Predictions allowed evacuation orders days in advance. Post-storm SAR satellites mapped destruction. International Charter activated for damage assessment.</p>
+          
+          <div class="lesson-box">
+            <strong>The Lesson</strong>
+            <p>Prediction works for cyclones, but response speed still matters. Small island nations need regional satellite data-sharing agreements and pre-positioned ground stations on neighboring islands.</p>
+          </div>
+        </div>
+        <div></div>
+      </div>
+      
+      <div class="case-study">
+        <div></div>
+        <div class="case-content">
+          <h3>California Wildfires (2020)</h3>
+          <h4>What Happened</h4>
+          <p>Record-breaking wildfires burned over 4 million acres. Dozens died. Thousands of structures destroyed. Smoke affected air quality across the continent.</p>
+          
+          <h4>Satellite Response</h4>
+          <p>Thermal satellites detected fire ignitions. NOAA's GOES satellites provided continuous monitoring. NASA satellites tracked smoke plumes. Data fed directly into firefighting command centers.</p>
+          
+          <div class="lesson-box">
+            <strong>The Lesson</strong>
+            <p>Speed of detection is worthless if speed of communication lags. SOPs must ensure satellite data reaches local authorities instantly and automated alerts go directly to residents in danger zones.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section id="action">
+    <div class="section-header">
+      <div class="section-tag">Take Action Now</div>
+      <h2>Join the Movement: Demand Space-Based SOPs</h2>
+      <p>You've seen the technology. You've understood the delays. You've studied the disasters. Now it's time to act.</p>
+    </div>
+
+    <div class="pledge-section">
+      <h3>The Pledge</h3>
+      <form id="pledge-form">
+        <div class="pledge-item">
+          <input type="checkbox" id="pledge1">
+          <label for="pledge1">I pledge to advocate for <strong>automated satellite activation</strong> during disasters—no delays, no approvals, instant response</label>
+        </div>
+        <div class="pledge-item">
+          <input type="checkbox" id="pledge2">
+          <label for="pledge2">I pledge to support <strong>local ground stations and processing facilities</strong> in every disaster-prone nation</label>
+        </div>
+        <div class="pledge-item">
+          <input type="checkbox" id="pledge3">
+          <label for="pledge3">I pledge to demand <strong>Space-based Standard Operating Procedures (SOPs)</strong> integrated into national emergency systems</label>
+        </div>
+        <div class="pledge-item">
+          <input type="checkbox" id="pledge4">
+          <label for="pledge4">I pledge to advocate for <strong>free and open satellite data</strong> accessible to all communities</label>
+        </div>
+        <div class="pledge-item">
+          <input type="checkbox" id="pledge5">
+          <label for="pledge5">I believe that <strong>life-saving information should flow as fast as disasters strike</strong></label>
+        </div>
+        <button type="button" id="take-pledge-btn" class="btn btn-primary" disabled onclick="takePledge()">Take the Pledge</button>
+      </form>
+      <div class="pledge-success" id="pledge-success">
+        <h4>🎉 Thank you for taking the pledge!</h4>
+        <p id="pledge-number"></p>
+      </div>
+    </div>
+
+    <h3 style="text-align: center; font-size: 1.75rem; margin: 4rem 0 2rem; color: var(--accent-cyan);">What You Can Do Right Now</h3>
+    
+    <div class="action-steps">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h4>Mark Your Location</h4>
+        <p>Add your pin to the Global Support Map and show policymakers this movement is worldwide.</p>
+        <a href="#map-section" class="btn btn-outline" style="margin-top: 1rem;">Go to Map</a>
+      </div>
+      
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h4>Share This Campaign</h4>
+        <p>Post on social media, present in classes, send to government representatives.</p>
+        <button class="btn btn-outline" style="margin-top: 1rem;" onclick="shareTwitter()">Share on 𝕏</button>
+      </div>
+      
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h4>Educate Your Community</h4>
+        <p>Host video screenings, write articles, start student organizations focused on disaster resilience.</p>
+      </div>
+      
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h4>Contact Representatives</h4>
+        <p>Email your government demanding investment in space-based SOPs.</p>
+        <button class="btn btn-outline" style="margin-top: 1rem;" onclick="openEmailTemplate()">Get Template</button>
+      </div>
+    </div>
+
+    <div style="max-width: 700px; margin: 4rem auto; text-align: center; padding: 3rem; background: rgba(26, 54, 93, 0.4); border-radius: 16px; border: 2px solid var(--accent-cyan);">
+      <h3 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Final Message</h3>
+      <p style="font-size: 1.1rem; line-height: 1.9; margin-bottom: 1.5rem;">On April 25, 2015, I watched rescue teams struggle with incomplete information. I watched them make decisions based on guesswork instead of data. I watched the Golden Period slip away while bureaucracy delayed satellite imagery.</p>
+      <p style="font-size: 1.1rem; line-height: 1.9; margin-bottom: 1.5rem;">This campaign is the result of that experience. But I can't create change alone. <strong style="color: var(--accent-cyan);">Change comes from movements. Movements come from people like you.</strong></p>
+      <p style="font-size: 1.3rem; font-weight: 700; color: var(--warning-orange); margin-top: 2rem;">Natural disasters don't wait. Neither should we.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p style="margin-bottom: 0.5rem; font-size: 1rem;"><strong>Space Saves Lives</strong> — A Communication Campaign for Space Diplomacy</p>
+    <p>CSTS-UH 1094 | NYU Abu Dhabi | 2025</p>
+    <p style="margin-top: 1.5rem; font-size: 0.85rem;">Campaign Resources: <a href="https://www.un-spider.org" target="_blank" style="color: var(--accent-cyan);">UN-SPIDER</a> | <a href="https://disasterscharter.org" target="_blank" style="color: var(--accent-cyan);">International Charter</a> | <a href="https://emergency.copernicus.eu" target="_blank" style="color: var(--accent-cyan);">Copernicus EMS</a></p>
+  </footer>
+
+  <!-- Video Modal -->
+  <div class="modal" id="video-modal">
+    <div class="modal-content" style="max-width: 800px;">
+      <button class="modal-close" onclick="closeModal('video-modal')">&times;</button>
+      <h3 id="video-title" style="margin-bottom: 1rem; color: var(--accent-cyan);"></h3>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">This video would be embedded here in a real implementation. For this demo, educational content about this topic would be curated from platforms like YouTube.</p>
+      <p style="color: var(--text-muted); font-size: 0.9rem; font-style: italic;">Note: In the actual campaign, specific educational videos would be embedded using YouTube's iframe API to provide comprehensive learning resources.</p>
+    </div>
+  </div>
+
+  <!-- Email Template Modal -->
+  <div class="modal" id="email-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('email-modal')">&times;</button>
+      <h3 style="margin-bottom: 1rem; color: var(--accent-cyan);">Email Template for Representatives</h3>
+      <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Copy this template and personalize it before sending:</p>
+      <textarea id="email-template" readonly style="width: 100%; min-height: 250px; padding: 1rem; border-radius: 8px; background: rgba(0,0,0,0.3); color: var(--text-light); border: 1px solid rgba(56, 189, 248, 0.3); font-family: inherit; font-size: 0.9rem; line-height: 1.6;">Subject: Urgent Need for Space-Based SOPs in Disaster Response
+
+Dear [Representative Name],
+
+I am writing as a concerned citizen about disaster response capabilities in our country. Recent disasters have demonstrated that satellite technology exists to save lives, but delays in data processing continue to cost lives during the critical "Golden Period" after disasters strike.
+
+I urge you to prioritize investment in:
+1. Automated space-based Standard Operating Procedures (SOPs) that activate satellites immediately when disasters occur
+2. Local ground stations and data processing facilities to eliminate international data transfer delays
+3. Integration of satellite data into national emergency response systems
+
+This is not a technical challenge—the technology exists. This is a political priority. Countries like Japan, the EU, and USA have already implemented these systems successfully.
+
+Please act before the next disaster strikes. Every hour of delay in implementation represents future lives that could be saved.
+
+Respectfully,
+[Your Name]
+[Your City/Region]</textarea>
+      <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="copyTemplate()">Copy to Clipboard</button>
+      <div id="copy-success" style="display: none; margin-top: 1rem; color: var(--success-green); text-align: center;">✓ Template copied! Paste it into your email client.</div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <script>
+    // Global data storage (simulates backend)
+    let supporters = [];
+    let pledges = 0;
+    
+    // Sample initial data
+    const sampleSupporters = [
+      {name: 'Rajesh Kumar', country: 'Nepal', lat: 27.7172, lng: 85.3240},
+      {name: 'Yuki Tanaka', country: 'Japan', lat: 35.6762, lng: 139.6503},
+      {name: 'Maria Garcia', country: 'Philippines', lat: 14.5995, lng: 120.9842},
+      {name: 'Ahmed Hassan', country: 'UAE', lat: 24.4539, lng: 54.3773},
+      {name: 'Sophie Laurent', country: 'France', lat: 48.8566, lng: 2.3522},
+      {name: 'Carlos Silva', country: 'Brazil', lat: -15.7975, lng: -47.8919},
+      {name: 'Priya Sharma', country: 'India', lat: 28.6139, lng: 77.2090},
+      {name: 'David Chen', country: 'USA', lat: 37.7749, lng: -122.4194}
+    ];
+    
+    // Initialize with sample data
+    supporters = [...sampleSupporters];
+    
+    // Countries list
+    const countries = [
+      'Afghanistan', 'Albania', 'Algeria', 'Argentina', 'Australia', 'Austria', 'Bangladesh', 'Belgium', 
+      'Bolivia', 'Brazil', 'Bulgaria', 'Cambodia', 'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica',
+      'Croatia', 'Cuba', 'Czech Republic', 'Denmark', 'Ecuador', 'Egypt', 'Ethiopia', 'Finland', 'France',
+      'Germany', 'Ghana', 'Greece', 'Guatemala', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India',
+      'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kenya',
+      'South Korea', 'Kuwait', 'Lebanon', 'Libya', 'Malaysia', 'Mexico', 'Morocco', 'Nepal', 'Netherlands',
+      'New Zealand', 'Nigeria', 'Norway', 'Pakistan', 'Palestine', 'Panama', 'Peru', 'Philippines', 'Poland',
+      'Portugal', 'Qatar', 'Romania', 'Russia', 'Saudi Arabia', 'Serbia', 'Singapore', 'South Africa',
+      'Spain', 'Sri Lanka', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Thailand', 'Turkey', 'UAE',
+      'Uganda', 'Ukraine', 'United Kingdom', 'USA', 'Uruguay', 'Venezuela', 'Vietnam', 'Yemen', 'Zimbabwe'
+    ];
+    
+    // Navigation
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+    
+    // Update active nav link on scroll
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section, header');
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    });
+    
+    // Animate counters
+    function animateCounter(element, target, duration = 2000) {
+      const start = 0;
+      const increment = target / (duration / 16);
+      let current = start;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          element.textContent = Math.round(target);
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.round(current);
+        }
+      }, 16);
+    }
+    
+    // Initialize counters
+    function updateCounters() {
+      const uniqueCountries = [...new Set(supporters.map(s => s.country))].length;
+      animateCounter(document.getElementById('supporterCount'), supporters.length);
+      animateCounter(document.getElementById('countryCount'), uniqueCountries);
+      animateCounter(document.getElementById('pledgeCount'), pledges);
+      animateCounter(document.getElementById('mapSupporters'), supporters.length);
+      animateCounter(document.getElementById('mapCountries'), uniqueCountries);
+    }
+    
+    // Scroll animations for cards
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card);
+    });
+    
+    // Expandable tech cards
+    function toggleCard(header) {
+      const card = header.parentElement;
+      card.classList.toggle('expanded');
+    }
+    
+    // Map initialization
+    let map;
+    let markerCluster;
+    
+    function initMap() {
+      map = L.map('map').setView([20, 0], 2);
+      
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18
+      }).addTo(map);
+      
+      markerCluster = L.markerClusterGroup();
+      
+      // Add existing supporters to map
+      supporters.forEach(supporter => {
+        const marker = L.marker([supporter.lat, supporter.lng])
+          .bindPopup(`<strong>${supporter.name}</strong><br>${supporter.country}`);
+        markerCluster.addLayer(marker);
+      });
+      
+      map.addLayer(markerCluster);
+    }
+    
+    // Populate country dropdown
+    function populateCountries() {
+      const select = document.getElementById('country');
+      countries.forEach(country => {
+        const option = document.createElement('option');
+        option.value = country;
+        option.textContent = country;
+        select.appendChild(option);
+      });
+    }
+    
+    // Add supporter
+    function addSupporter(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const country = document.getElementById('country').value;
+      const university = document.getElementById('university').value;
+      
+      // Get approximate coordinates for country (in real app, use geocoding API)
+      const coords = getCountryCoords(country);
+      
+      const supporter = {
+        name: name,
+        email: email,
+        country: country,
+        university: university,
+        lat: coords.lat + (Math.random() - 0.5) * 2,
+        lng: coords.lng + (Math.random() - 0.5) * 2
+      };
+      
+      supporters.push(supporter);
+      
+      // Add marker to map
+      const marker = L.marker([supporter.lat, supporter.lng])
+        .bindPopup(`<strong>${supporter.name}</strong><br>${supporter.country}`);
+      markerCluster.addLayer(marker);
+      
+      // Show success message
+      document.getElementById('support-form').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+      
+      // Update counters
+      updateCounters();
+      updateCharts();
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        document.getElementById('support-form').reset();
+        document.getElementById('support-form').style.display = 'flex';
+        document.getElementById('form-success').style.display = 'none';
+      }, 3000);
+    }
+    
+    // Get approximate country coordinates
+    function getCountryCoords(country) {
+      const coords = {
+        'Nepal': {lat: 27.7172, lng: 85.3240},
+        'Japan': {lat: 35.6762, lng: 139.6503},
+        'India': {lat: 28.6139, lng: 77.2090},
+        'Philippines': {lat: 14.5995, lng: 120.9842},
+        'Indonesia': {lat: -6.2088, lng: 106.8456},
+        'USA': {lat: 37.7749, lng: -122.4194},
+        'UK': {lat: 51.5074, lng: -0.1278},
+        'Germany': {lat: 52.5200, lng: 13.4050},
+        'France': {lat: 48.8566, lng: 2.3522},
+        'Spain': {lat: 40.4168, lng: -3.7038},
+        'Italy': {lat: 41.9028, lng: 12.4964},
+        'Brazil': {lat: -15.7975, lng: -47.8919},
+        'Mexico': {lat: 19.4326, lng: -99.1332},
+        'Australia': {lat: -33.8688, lng: 151.2093},
+        'UAE': {lat: 24.4539, lng: 54.3773},
+        'China': {lat: 39.9042, lng: 116.4074},
+        'South Korea': {lat: 37.5665, lng: 126.9780}
+      };
+      return coords[country] || {lat: 0, lng: 0};
+    }
+    
+    // Charts
+    let barChart, pieChart, lineChart;
+    
+    function initCharts() {
+      // Bar Chart - Top Countries
+      const countryCounts = {};
+      supporters.forEach(s => {
+        countryCounts[s.country] = (countryCounts[s.country] || 0) + 1;
+      });
+      
+      const sortedCountries = Object.entries(countryCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
+      
+      const barCtx = document.getElementById('barChart').getContext('2d');
+      barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+          labels: sortedCountries.map(c => c[0]),
+          datasets: [{
+            label: 'Supporters',
+            data: sortedCountries.map(c => c[1]),
+            backgroundColor: '#38bdf8',
+            borderColor: '#818cf8',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {display: false},
+            title: {display: false}
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {color: '#94a3b8'},
+              grid: {color: 'rgba(56, 189, 248, 0.1)'}
+            },
+            x: {
+              ticks: {color: '#94a3b8'},
+              grid: {color: 'rgba(56, 189, 248, 0.1)'}
+            }
+          }
+        }
+      });
+      
+      // Pie Chart - Regional Distribution
+      const regions = {
+        'Asia-Pacific': 0,
+        'Europe': 0,
+        'Americas': 0,
+        'Middle East': 0,
+        'Africa': 0
+      };
+      
+      supporters.forEach(s => {
+        if (['Nepal', 'Japan', 'India', 'Philippines', 'Indonesia', 'China', 'South Korea', 'Australia'].includes(s.country)) {
+          regions['Asia-Pacific']++;
+        } else if (['UK', 'Germany', 'France', 'Spain', 'Italy', 'Poland', 'Netherlands'].includes(s.country)) {
+          regions['Europe']++;
+        } else if (['USA', 'Brazil', 'Mexico', 'Canada', 'Argentina'].includes(s.country)) {
+          regions['Americas']++;
+        } else if (['UAE', 'Saudi Arabia', 'Israel', 'Turkey'].includes(s.country)) {
+          regions['Middle East']++;
+        } else {
+          regions['Africa']++;
+        }
+      });
+      
+      const pieCtx = document.getElementById('pieChart').getContext('2d');
+      pieChart = new Chart(pieCtx, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(regions),
+          datasets: [{
+            data: Object.values(regions),
+            backgroundColor: ['#38bdf8', '#818cf8', '#4ade80', '#fbbf24', '#f87171'],
+            borderWidth: 2,
+            borderColor: '#0a1628'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {color: '#e2e8f0', padding: 15}
+            }
+          }
+        }
+      });
+      
+      // Line Chart - Growth Over Time
+      const lineCtx = document.getElementById('lineChart').getContext('2d');
+      lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'],
+          datasets: [{
+            label: 'Total Supporters',
+            data: [50, 120, 280, 520, 890, 1450, 2100, supporters.length],
+            borderColor: '#38bdf8',
+            backgroundColor: 'rgba(56, 189, 248, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 5,
+            pointHoverRadius: 7
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {display: false}
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {color: '#94a3b8'},
+              grid: {color: 'rgba(56, 189, 248, 0.1)'}
+            },
+            x: {
+              ticks: {color: '#94a3b8'},
+              grid: {color: 'rgba(56, 189, 248, 0.1)'}
+            }
+          }
+        }
+      });
+    }
+    
+    function updateCharts() {
+      if (barChart) barChart.destroy();
+      if (pieChart) pieChart.destroy();
+      if (lineChart) lineChart.destroy();
+      initCharts();
+    }
+    
+    // Pledge functionality
+    document.querySelectorAll('.pledge-item input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', checkPledge);
+    });
+    
+    function checkPledge() {
+      const checkboxes = document.querySelectorAll('.pledge-item input[type="checkbox"]');
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+      document.getElementById('take-pledge-btn').disabled = !allChecked;
+    }
+    
+    function takePledge() {
+      pledges++;
+      document.getElementById('pledge-form').style.display = 'none';
+      document.getElementById('pledge-success').classList.add('visible');
+      document.getElementById('pledge-number').textContent = `You're supporter #${supporters.length + pledges}`;
+      
+      // Confetti effect
+      createConfetti();
+      
+      // Update counter
+      animateCounter(document.getElementById('pledgeCount'), pledges);
+    }
+    
+    function createConfetti() {
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = ['#38bdf8', '#818cf8', '#4ade80', '#fbbf24'][Math.floor(Math.random() * 4)];
+        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+    
+    // Video modal
+    function openVideoModal(title) {
+      document.getElementById('video-title').textContent = title;
+      document.getElementById('video-modal').classList.add('active');
+    }
+    
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+    
+    // Email template
+    function openEmailTemplate() {
+      document.getElementById('email-modal').classList.add('active');
+    }
+    
+    function copyTemplate() {
+      const template = document.getElementById('email-template');
+      template.select();
+      document.execCommand('copy');
+      document.getElementById('copy-success').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('copy-success').style.display = 'none';
+      }, 3000);
+    }
+    
+    // Social sharing
+    function shareTwitter() {
+      const text = encodeURIComponent("I just joined Space Saves Lives - demanding faster disaster response with space-based SOPs. Every second counts when disaster strikes. Join the movement! #SpaceSavesLives");
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    }
+    
+    // Close modals on outside click
+    window.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal')) {
+        e.target.classList.remove('active');
+      }
+    });
+    
+    // Initialize on load - wait for all scripts to load
+    window.addEventListener('load', () => {
+      // Wait a bit to ensure all external scripts are loaded
+      setTimeout(() => {
+        updateCounters();
+        populateCountries();
+        if (typeof L !== 'undefined') {
+          initMap();
+        } else {
+          console.error('Leaflet not loaded');
+        }
+        if (typeof Chart !== 'undefined') {
+          initCharts();
+        } else {
+          console.error('Chart.js not loaded');
+        }
+      }, 100);
+    });
+  </script>
+</body>
+</html>
