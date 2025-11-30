@@ -1,0 +1,478 @@
+<!-- ========================================
+     PAGE 6: GLOBAL FRAMEWORKS (frameworks.html)
+     ======================================== -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Frameworks - Space Saves Lives</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #9ca3af;
+            margin-bottom: 4rem;
+        }
+
+        .intro-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .intro-section p {
+            font-size: 1.2rem;
+            color: #d1d5db;
+            line-height: 1.8;
+        }
+
+        .framework-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            border-top: 5px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .framework-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .framework-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .framework-icon {
+            font-size: 4rem;
+            margin-right: 1.5rem;
+        }
+
+        .framework-card h2 {
+            font-size: 2.5rem;
+            color: #3b82f6;
+        }
+
+        .framework-card h3 {
+            font-size: 1.8rem;
+            color: #8b5cf6;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .framework-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box strong {
+            color: #3b82f6;
+            font-size: 1.2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .member-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-list {
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 10px;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            min-width: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: #9ca3af;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .framework-icon {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🛰️ Space Saves Lives</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sop-page.html">What are SOPs?</a></li>
+                <li><a href="technology.html">Technology</a></li>
+                <li><a href="countries.html">Model Countries</a></li>
+                <li><a href="nepal.html">Nepal Case</a></li>
+                <li><a href="frameworks.html">Global Frameworks</a></li>
+                <li><a href="action.html">Take Action</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Global Frameworks</h1>
+        <p class="page-subtitle">International Cooperation as a Safety Net</p>
+
+        <div class="intro-section">
+            <p>
+                Since not every country possesses its own satellite constellation or advanced remote sensing capabilities, <strong>global cooperation</strong>—often termed "space diplomacy"—becomes essential for equitable disaster response.
+            </p>
+            <p style="margin-top: 1rem;">
+                These diplomatic frameworks provide data access and capacity building, ensuring that when disaster strikes, no nation is left without the tools to save lives.
+            </p>
+        </div>
+
+        <div class="framework-card">
+            <div class="framework-header">
+                <div class="framework-icon">🛰️</div>
+                <div>
+                    <h2>The International Charter</h2>
+                    <p style="color: #9ca3af; margin-bottom: 0;">"Space and Major Disasters"</p>
+                </div>
+            </div>
+
+            <p>
+                Established in 2000, this multilateral agreement currently includes 17 major space agencies from around the world. The Charter represents one of the most successful examples of international space cooperation for humanitarian purposes.
+            </p>
+
+            <h3>How It Works</h3>
+            <p>
+                The Charter guarantees <strong>free, 24/7 access to satellite data</strong> during emergencies for any member country or authorized user. When activated, all participating agencies task their satellites to image the disaster zone and share data through a centralized coordination mechanism.
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">17</div>
+                    <div class="stat-label">Space Agencies</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">700+</div>
+                    <div class="stat-label">Activations Since 2000</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Emergency Access</div>
+                </div>
+            </div>
+
+            <h3>Member Agencies Include</h3>
+            <div style="margin-top: 1rem;">
+                <span class="member-tag">NASA (USA)</span>
+                <span class="member-tag">ESA (Europe)</span>
+                <span class="member-tag">JAXA (Japan)</span>
+                <span class="member-tag">ISRO (India)</span>
+                <span class="member-tag">CSA (Canada)</span>
+                <span class="member-tag">CNES (France)</span>
+                <span class="member-tag">DLR (Germany)</span>
+                <span class="member-tag">And 10+ More</span>
+            </div>
+
+            <div class="highlight-box">
+                <strong>The Power of Cooperation:</strong>
+                <p style="margin-top: 0.5rem;">
+                    The Charter has been activated over 700 times since its inception, proving that nations can set aside political differences and competitive interests when human lives are at stake. From hurricanes in the Caribbean to earthquakes in Asia, the Charter provides a critical safety net for disaster response worldwide.
+                </p>
+            </div>
+
+            <h3>Key Features</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">🆓</div>
+                    <div>
+                        <strong>Free Data Access</strong>
+                        <p style="margin: 0.3rem 0 0 0; color: #9ca3af;">All satellite imagery provided at no cost during emergencies</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div>
+                        <strong>Rapid Activation</strong>
+                        <p style="margin: 0.3rem 0 0 0; color: #9ca3af;">Can be triggered within minutes through authorized channels</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌍</div>
+                    <div>
+                        <strong>Global Coverage</strong>
+                        <p style="margin: 0.3rem 0 0 0; color: #9ca3af;">Multi-agency coordination ensures worldwide disaster response capability</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🤝</div>
+                    <div>
+                        <strong>Non-Political</strong>
+                        <p style="margin: 0.3rem 0 0 0; color: #9ca3af;">Humanitarian focus transcends political boundaries and conflicts</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="framework-card">
+            <div class="framework-header">
+                <div class="framework-icon">🎓</div>
+                <div>
+                    <h2>UN-SPIDER</h2>
+                    <p style="color: #9ca3af; margin-bottom: 0;">United Nations Platform for Space-based Information for Disaster Management and Emergency Response</p>
+                </div>
+            </div>
+
+            <p>
+                While the International Charter provides data access, UN-SPIDER focuses on <strong>capacity building</strong>—the crucial step of ensuring that developing countries can actually use the satellite data effectively.
+            </p>
+
+            <h3>The Mission</h3>
+            <p>
+                UN-SPIDER works to ensure that all countries, particularly developing nations, have access to and can benefit from space-based information to support the full disaster management cycle—from prevention and preparedness to response and recovery.
+            </p>
+
+            <div class="highlight-box">
+                <strong>Why Capacity Building Matters:</strong>
+                <p style="margin-top: 0.5rem;">
+                    Having access to satellite data is not enough. Countries need trained personnel who can interpret complex imagery, process raw data, and integrate satellite information into existing emergency response plans. Without this institutional knowledge, satellite data remains merely raw information rather than a practical life-saving tool.
+                </p>
+            </div>
+
+            <h3>What UN-SPIDER Provides</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">👨‍🏫</div>
+                    <div>
+                        <strong>Technical Training</strong>
+                        <p style="margin: 0.3rem 0 0 0; color: #9ca3af;">Sends experts to train local engineers, disaster managers, and government officials</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📚</div>
+                    <div>
+                        <strong>Knowledge Resources</strong>
+                        <p style="margin: 0.3rem 0 0 0; color: #9ca3af;">Provides guidelines, best practices, and technical documentation</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔧</div>
+                    <div>
+                        <strong>Technical Advisory</strong>
+                        <p style="margin: 0.3rem 0 0 0; color: #9ca3af;">Offers guidance on establishing Data Processing Centers and SOPs</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌐</div>
+                    <div>
+                        <strong>Global Network</strong>
+                        <p style="margin: 0.3rem 0 0 0; color: #9ca3af;">Connects countries with Regional Support Offices for ongoing support</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💻</div>
+                    <div>
+                        <strong>Technology Transfer</strong>
+                        <p style="margin: 0.3rem 0 0 0; color: #9ca3af;">Helps countries acquire and implement necessary software and hardware</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>The Nepal Example</h3>
+            <p>
+                During and after the 2015 Gorkha Earthquake, UN-SPIDER played a critical role in helping Nepali officials understand and act on the satellite imagery provided through the International Charter. This assistance was invaluable, but it also highlighted the need for countries to develop their own domestic capacity rather than relying on external expertise during crises.
+            </p>
+        </div>
+
+        <div class="intro-section" style="margin-top: 3rem;">
+            <h3 style="font-size: 2rem; color: #3b82f6; margin-bottom: 1rem;">The Path Forward</h3>
+            <p>
+                These diplomatic frameworks provide a strong foundation, but they also highlight the ultimate goal: each nation should develop sufficient domestic capacity—through mandatory SOPs, trained personnel, and processing infrastructure—to reduce dependency and achieve truly sovereign disaster resilience.
+            </p>
+            <p style="margin-top: 1rem;">
+                The International Charter and UN-SPIDER prove that <strong>global solidarity</strong> is possible. Now we must build on this foundation by ensuring every country has the institutional capacity to use these tools effectively and independently.
+            </p>
+        </div>
+
+        <div class="button-container">
+            <a href="action.html" class="cta-button">Take Action Now →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Space Saves Lives Campaign | Making Satellite Data Mandatory for Disaster Response</p>
+    </footer>
+</body>
+</html>
