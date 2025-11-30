@@ -1,0 +1,340 @@
+<!-- ========================================
+     PAGE 2: WHAT ARE SOPs? (sop-page.html)
+     ======================================== -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What are SOPs? - Space Saves Lives</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #9ca3af;
+            margin-bottom: 4rem;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+        }
+
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .workflow-container {
+            margin-top: 3rem;
+        }
+
+        .workflow-step {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step:hover {
+            transform: translateX(10px);
+            border-left-color: #8b5cf6;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-action {
+            font-size: 1.2rem;
+            color: #8b5cf6;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            color: #d1d5db;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-saved {
+            display: inline-block;
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: #9ca3af;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🛰️ Space Saves Lives</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sop-page.html">What are SOPs?</a></li>
+                <li><a href="technology.html">Technology</a></li>
+                <li><a href="countries.html">Model Countries</a></li>
+                <li><a href="nepal.html">Nepal Case</a></li>
+                <li><a href="frameworks.html">Global Frameworks</a></li>
+                <li><a href="action.html">Take Action</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">What are SOPs?</h1>
+        <p class="page-subtitle">The Mandatory Checklist That Saves Lives</p>
+
+        <div class="content-section">
+            <h2>Standard Operating Procedure Defined</h2>
+            <p>
+                A Standard Operating Procedure (SOP) is a detailed, step-by-step instruction set that government agencies use to ensure complex tasks are always performed correctly, consistently, and in the same order. Think of it as a pre-approved checklist that removes confusion and eliminates delay during high-pressure situations when every minute counts.
+            </p>
+            <p>
+                In everyday government operations, officials might debate the best course of action, seek multiple approvals, or wait for meetings to decide on resource allocation. But during disasters, this bureaucratic process costs lives.
+            </p>
+            <p>
+                <strong>An SOP pre-authorizes specific actions, so the moment a trigger event occurs, the entire response mechanism activates automatically—no questions asked, no waiting for permission.</strong>
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>The Space-Based SOP: Eliminating Data Latency</h2>
+            <p>
+                In a disaster scenario, we cannot afford to have officials waiting for emergency meetings to decide whether they should contact a space agency or request satellite imagery. A mandatory Space-Based SOP makes the use of satellite information automatic and immediate.
+            </p>
+            <p>
+                The primary goal of this system is to <strong>eliminate data latency</strong>—the critical delay between when a satellite captures imagery and when processed, actionable information reaches rescue workers on the ground. In many past disasters, this delay stretched to days or even weeks. A mandatory SOP cuts this timeline from days to mere hours.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2>The Five-Step Workflow</h2>
+            <p style="margin-bottom: 2rem;">The SOP operates through a clear five-step workflow that functions like a rapid-response machine:</p>
+
+            <div class="workflow-container">
+                <div class="workflow-step">
+                    <div>
+                        <span class="step-number">1</span>
+                        <span class="step-title">Crisis Declaration</span>
+                    </div>
+                    <div class="step-action">Official Disaster Alert</div>
+                    <p class="step-description">
+                        A designated government agency issues a formal declaration that a major event (earthquake, flood, cyclone) has occurred. This serves as the starting trigger.
+                    </p>
+                    <span class="time-saved">⏱️ Baseline</span>
+                </div>
+
+                <div class="workflow-step">
+                    <div>
+                        <span class="step-number">2</span>
+                        <span class="step-title">Automatic Activation</span>
+                    </div>
+                    <div class="step-action">SOP Trigger</div>
+                    <p class="step-description">
+                        The official alert instantly and automatically activates the SOP, sending a pre-written emergency request for satellite imagery to all partner space agencies (domestic and international, including the International Charter).
+                    </p>
+                    <span class="time-saved">⏱️ Saves HOURS (eliminates approval processes)</span>
+                </div>
+
+                <div class="workflow-step">
+                    <div>
+                        <span class="step-number">3</span>
+                        <span class="step-title">Satellite Tasking</span>
+                    </div>
+                    <div class="step-action">Immediate Sensor Deployment</div>
+                    <p class="step-description">
+                        The request directs specific high-priority satellites (especially all-weather SAR systems) to focus on the affected zone. Satellites interrupt routine operations and prioritize disaster imaging.
+                    </p>
+                    <span class="time-saved">⏱️ Saves MINUTES (no human decision delays)</span>
+                </div>
+
+                <div class="workflow-step">
+                    <div>
+                        <span class="step-number">4</span>
+                        <span class="step-title">Rapid Processing</span>
+                    </div>
+                    <div class="step-action">Data Analysis</div>
+                    <p class="step-description">
+                        Raw satellite data is transmitted to a designated local Data Processing Center (DPC). Trained analysts or automated systems convert complex satellite imagery into simple, color-coded maps showing collapsed buildings, flood extent, or landslide locations.
+                    </p>
+                    <span class="time-saved">⏱️ Saves CRUCIAL HOURS (local processing is faster)</span>
+                </div>
+
+                <div class="workflow-step">
+                    <div>
+                        <span class="step-number">5</span>
+                        <span class="step-title">Field Delivery</span>
+                    </div>
+                    <div class="step-action">Direct Distribution to Rescue Teams</div>
+                    <p class="step-description">
+                        Finished maps are instantly distributed through dedicated communication channels directly to mobile devices and command centers of police units, fire brigades, military units, and aid organizations in the field.
+                    </p>
+                    <span class="time-saved">⏱️ LIVES SAVED (rescuers know exactly where to go)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <a href="technology.html" class="cta-button">Explore the Technology →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Space Saves Lives Campaign | Making Satellite Data Mandatory for Disaster Response</p>
+    </footer>
+</body>
+</html>

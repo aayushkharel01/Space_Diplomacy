@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Saves Lives - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        /* Story Section */
+        .story-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4rem 2rem;
+            margin: 2rem 0;
+            border-radius: 20px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .story-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #3b82f6;
+        }
+
+        .story-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+        }
+
+        .quote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #9ca3af;
+        }
+
+        /* Golden Period Section */
+        .golden-period {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .golden-period h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: #fbbf24;
+        }
+
+        .time-box {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            padding: 2rem 4rem;
+            border-radius: 15px;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #0a0e27;
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.3);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 10px 40px rgba(251, 191, 36, 0.3); }
+            50% { box-shadow: 0 10px 60px rgba(251, 191, 36, 0.6); }
+        }
+
+        .golden-period p {
+            margin-top: 2rem;
+            font-size: 1.3rem;
+            color: #d1d5db;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Solution Section */
+        .solution {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+            border-radius: 20px;
+        }
+
+        .solution h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #8b5cf6;
+        }
+
+        .solution-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .solution-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: #9ca3af;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .time-box {
+                font-size: 2rem;
+                padding: 1.5rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🛰️ Space Saves Lives</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="sop-page.html">What are SOPs?</a></li>
+                <li><a href="technology.html">Technology</a></li>
+                <li><a href="countries.html">Model Countries</a></li>
+                <li><a href="nepal.html">Nepal Case</a></li>
+                <li><a href="frameworks.html">Global Frameworks</a></li>
+                <li><a href="action.html">Take Action</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Space Saves Lives</h1>
+            <p class="hero-subtitle">Making Satellite Data Mandatory for Disaster Response</p>
+        </div>
+    </section>
+
+    <!-- Personal Story -->
+    <section class="story-section">
+        <div class="story-content">
+            <h2>My Story: Nepal 2015</h2>
+            <p>
+                I was on the third floor of a house in Nepal, playing with a friend, when the world suddenly began to shake violently. The 2015 Gorkha Earthquake had struck with devastating force.
+            </p>
+            <p>
+                My mother quickly guided us down and outside to safety. But standing there, watching the dust rise from collapsed buildings across the neighborhood, an overwhelming fear gripped us. My father was teaching at a school far from home.
+            </p>
+            <div class="quote">
+                "In the aftermath, all communication was cut off. We couldn't call him, and he couldn't call us. For several agonizing hours, we felt trapped in uncertainty, unsure if he and our other relatives were safe."
+            </div>
+            <p>
+                This feeling of helplessness, caused by the simple failure of communication and data flow, has stayed with me ever since. It's why I'm advocating for mandatory Space-Based Standard Operating Procedures (SOPs) in every country.
+            </p>
+        </div>
+    </section>
+
+    <!-- Golden Period -->
+    <section class="golden-period">
+        <h2>The Golden Period</h2>
+        <div class="time-box">72 Hours</div>
+        <p>
+            The first 72 hours after a disaster—when most lives can still be saved. If rescuers can get reliable information about blocked roads, landslides, and collapsed buildings within the first few hours, they can reach thousands more people who are trapped or injured.
+        </p>
+        <p style="margin-top: 2rem; font-size: 1.4rem; color: #fbbf24;">
+            <strong>The Problem:</strong> Traditional ground-based communication systems are destroyed in the very events they're needed for most.
+        </p>
+    </section>
+
+    <!-- Solution -->
+    <section class="solution">
+        <h2>The Solution: Space-Based SOPs</h2>
+        <div class="solution-content">
+            <p>
+                The technology to solve this problem already exists—in space. Satellites can see through the destruction, map the damage in real-time, and guide rescuers to where they are needed most.
+            </p>
+            <p>
+                However, most governments fail to leverage this capability effectively because they don't have formal, official protocols for using satellite data instantly during emergencies.
+            </p>
+            <p>
+                <strong>Our Mission:</strong> Every nation must adopt mandatory Space-Based Standard Operating Procedures (SOPs). The use of satellite data in national emergencies must become an automatic requirement written into law, not an optional resource that officials debate while people are suffering.
+            </p>
+            <div class="button-container">
+                <a href="sop-page.html" class="cta-button">Learn About SOPs →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Space Saves Lives Campaign | Aayush Kharel | Making Satellite Data Mandatory for Disaster Response</p>
+    </footer>
+</body>
+</html>

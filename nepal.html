@@ -1,0 +1,423 @@
+<!-- ========================================
+     PAGE 5: NEPAL CASE STUDY (nepal.html)
+     ======================================== -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nepal 2015 Case Study - Space Saves Lives</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #9ca3af;
+            margin-bottom: 4rem;
+        }
+
+        .timeline-section {
+            position: relative;
+            padding-left: 3rem;
+            margin: 3rem 0;
+        }
+
+        .timeline-section::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+        }
+
+        .timeline-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border: 3px solid #0a0e27;
+        }
+
+        .timeline-item h3 {
+            font-size: 2rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-item p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .crisis-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .gap-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-box {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.2);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            margin: 1rem 1rem 1rem 0;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+            display: block;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .impact-section {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            border-left: 5px solid #ef4444;
+        }
+
+        .impact-section h2 {
+            font-size: 2.5rem;
+            color: #ef4444;
+            margin-bottom: 1.5rem;
+        }
+
+        .impact-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .solution-section {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            border-left: 5px solid #10b981;
+        }
+
+        .solution-section h2 {
+            font-size: 2.5rem;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+        }
+
+        .solution-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .quote-box {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid #8b5cf6;
+            margin: 2rem 0;
+            font-style: italic;
+        }
+
+        .quote-box p {
+            color: #d1d5db;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: #9ca3af;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .timeline-section {
+                padding-left: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🛰️ Space Saves Lives</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sop-page.html">What are SOPs?</a></li>
+                <li><a href="technology.html">Technology</a></li>
+                <li><a href="countries.html">Model Countries</a></li>
+                <li><a href="nepal.html">Nepal Case</a></li>
+                <li><a href="frameworks.html">Global Frameworks</a></li>
+                <li><a href="action.html">Take Action</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Nepal 2015</h1>
+        <p class="page-subtitle">Learning from Crisis: The Gap That Must Be Filled</p>
+
+        <div class="impact-section">
+            <h2>The Gorkha Earthquake</h2>
+            <p>
+                On April 25, 2015, a massive 7.8 magnitude earthquake struck Nepal, triggering one of the worst natural disasters in the country's history. The experience starkly illustrates both the catastrophic failure of ground-based communication systems and the subsequent necessity of space-based data—while also revealing the critical gap that mandatory SOPs would fill.
+            </p>
+            <div style="margin-top: 2rem;">
+                <div class="stat-box">
+                    <span class="stat-number">7.8</span>
+                    <span class="stat-label">Magnitude</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">9,000+</span>
+                    <span class="stat-label">Lives Lost</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">3,000+</span>
+                    <span class="stat-label">Landslides Mapped</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-section">
+            <div class="timeline-item">
+                <span class="crisis-tag">THE CRISIS</span>
+                <h3>Complete Communication Failure</h3>
+                <p>
+                    The massive earthquake triggered thousands of landslides across Nepal's mountainous terrain, cutting off entire valleys and villages. The loss of electricity and collapse of cell towers meant that rescue teams had virtually no information about where to deploy their limited resources.
+                </p>
+                <p>
+                    Traditional damage assessment methods—sending reconnaissance teams on foot—would have taken days or weeks to cover the affected region. In those critical first hours, rescuers were operating blind.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <span class="success-tag">THE SPACE RESPONSE</span>
+                <h3>International Charter Activation</h3>
+                <p>
+                    Within hours of the earthquake, the International Charter "Space and Major Disasters" was activated. Satellites from space agencies around the world captured high-resolution imagery and radar data.
+                </p>
+                <p>
+                    Analysis teams processed this information and mapped over 3,000 landslide locations, identified damaged infrastructure, and created detailed damage assessment maps. This satellite data proved invaluable in directing international rescue resources to the most isolated, high-risk areas.
+                </p>
+                <div class="quote-box">
+                    <p>
+                        "The satellite maps showed us exactly which roads were blocked, which villages were cut off, and where we needed to send helicopters first. Without that information, we would have been searching blind for weeks."
+                    </p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="gap-tag">THE RESILIENCE GAP</span>
+                <h3>Dependency is Not Security</h3>
+                <p>
+                    While the international satellite data was provided free of charge, Nepal at that time lacked dedicated Data Processing Centers and locally trained experts to interpret and utilize the technical maps quickly and independently.
+                </p>
+                <p>
+                    The country relied heavily on <strong>UN-SPIDER</strong> (the United Nations Platform for Space-based Information for Disaster Management and Emergency Response) to help government officials understand and act on the satellite imagery.
+                </p>
+                <p>
+                    Although this international assistance minimized delays, the process would have been even faster if Nepal had possessed its own domestic capacity through a pre-established mandatory SOP with trained personnel and processing infrastructure.
+                </p>
+            </div>
+        </div>
+
+        <div class="solution-section">
+            <h2>What Nepal Needs Now</h2>
+            <p>
+                This dependency on external expertise—while beneficial in crisis—represents a vulnerability. It is precisely this gap that drives the argument for mandatory SOPs: <strong>countries must develop their own institutional capacity, not merely access to data, to achieve true disaster resilience and rapid response capability.</strong>
+            </p>
+            <p style="margin-top: 1.5rem;">
+                Nepal and countries like it need:
+            </p>
+            <ul style="margin-left: 2rem; margin-top: 1rem; color: #d1d5db; font-size: 1.1rem; line-height: 2;">
+                <li><strong>Mandatory Space-Based SOPs</strong> written into law</li>
+                <li><strong>Local Data Processing Centers</strong> with trained staff</li>
+                <li><strong>Pre-established protocols</strong> for automatic satellite activation</li>
+                <li><strong>Annual training and drills</strong> to maintain readiness</li>
+                <li><strong>Investment in domestic capacity</strong> to reduce foreign dependency</li>
+            </ul>
+        </div>
+
+        <div class="quote-box">
+            <p>
+                "My experience during the 2015 earthquake—standing helpless as communication systems failed, unable to know if my father was safe—should not be repeated for future generations. The technology exists. What we need is the commitment to institutionalize it."
+            </p>
+        </div>
+
+        <div class="button-container">
+            <a href="frameworks.html" class="cta-button">Explore Global Frameworks →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Space Saves Lives Campaign | Making Satellite Data Mandatory for Disaster Response</p>
+    </footer>
+</body>
+</html>
+

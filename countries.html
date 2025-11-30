@@ -1,0 +1,372 @@
+<!-- ========================================
+     PAGE 4: MODEL COUNTRIES (countries.html)
+     ======================================== -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Countries - Space Saves Lives</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #9ca3af;
+            margin-bottom: 4rem;
+        }
+
+        .intro-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .intro-section p {
+            font-size: 1.2rem;
+            color: #d1d5db;
+            line-height: 1.8;
+        }
+
+        .standard-box {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .standard-box h3 {
+            font-size: 2.5rem;
+            color: #0a0e27;
+            margin-bottom: 0.5rem;
+        }
+
+        .standard-box p {
+            font-size: 1.3rem;
+            color: #1a1f3a;
+            font-weight: bold;
+        }
+
+        .country-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            border-top: 5px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .country-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .country-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .country-flag {
+            font-size: 4rem;
+            margin-right: 1.5rem;
+        }
+
+        .country-card h2 {
+            font-size: 2.5rem;
+            color: #3b82f6;
+        }
+
+        .country-card h3 {
+            font-size: 1.8rem;
+            color: #8b5cf6;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .country-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box strong {
+            color: #3b82f6;
+            font-size: 1.2rem;
+        }
+
+        .success-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: #9ca3af;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .country-flag {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🛰️ Space Saves Lives</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sop-page.html">What are SOPs?</a></li>
+                <li><a href="technology.html">Technology</a></li>
+                <li><a href="countries.html">Model Countries</a></li>
+                <li><a href="nepal.html">Nepal Case</a></li>
+                <li><a href="frameworks.html">Global Frameworks</a></li>
+                <li><a href="action.html">Take Action</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Model Countries</h1>
+        <p class="page-subtitle">Nations That Made Satellite Data Mandatory</p>
+
+        <div class="intro-section">
+            <p>
+                Successful nations treat satellite data not as a supplementary nice-to-have option, but as <strong>critical infrastructure</strong>—as essential as fire departments or emergency medical services. These countries have institutionalized space-based disaster response through formal legislation and dedicated organizational structures.
+            </p>
+        </div>
+
+        <div class="standard-box">
+            <h3>The Three-Hour Standard</h3>
+            <p>From disaster declaration to actionable satellite maps</p>
+        </div>
+
+        <div class="country-card">
+            <div class="country-header">
+                <div class="country-flag">🇯🇵</div>
+                <div>
+                    <h2>Japan</h2>
+                    <p style="color: #9ca3af; margin-bottom: 0;">The Gold Standard in Disaster Preparedness</p>
+                </div>
+            </div>
+
+            <p>
+                Japan, which faces constant threats from earthquakes, tsunamis, typhoons, and volcanic eruptions, has integrated its space agency JAXA (Japan Aerospace Exploration Agency) directly into the central Cabinet Office's disaster response structure.
+            </p>
+
+            <h3>Institutional Integration</h3>
+            <p>
+                Japan's mandatory SOP requires a dedicated emergency mapping team to deliver the first satellite-based analysis map to the central government within <strong>three hours</strong> of a major disaster declaration.
+            </p>
+
+            <div class="highlight-box">
+                <strong>Key Success Factor:</strong>
+                <p style="margin-top: 0.5rem;">
+                    This speed is non-negotiable and written into official emergency response regulations. Japan's system demonstrates that rapid satellite response is achievable when institutional commitment exists.
+                </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <span class="success-tag">✓ Mandatory 3-Hour Delivery</span>
+                <span class="success-tag">✓ JAXA-Cabinet Integration</span>
+                <span class="success-tag">✓ 24/7 Operations</span>
+                <span class="success-tag">✓ Legal Framework</span>
+            </div>
+
+            <h3>Why It Works</h3>
+            <p>
+                Japan doesn't wait for disasters to happen before deciding to use satellites. The decision is already made, legally binding, and automatically triggered. This eliminates the bureaucratic delays that cost lives in other countries.
+            </p>
+        </div>
+
+        <div class="country-card">
+            <div class="country-header">
+                <div class="country-flag">🇪🇺</div>
+                <div>
+                    <h2>European Union</h2>
+                    <p style="color: #9ca3af; margin-bottom: 0;">Copernicus Emergency Management Service</p>
+                </div>
+            </div>
+
+            <p>
+                The European Union operates the Copernicus Emergency Management Service (EMS), which provides standardized rapid mapping services free of charge to all EU member states and select international partners.
+            </p>
+
+            <h3>The First Available Map (FAM) Protocol</h3>
+            <p>
+                Copernicus has established a formal goal of producing the <strong>First Available Map (FAM) within three hours</strong> of activation. This target is consistently met through a network of certified service providers, standardized processing workflows, and 24/7 operations centers.
+            </p>
+
+            <div class="highlight-box">
+                <strong>The Copernicus Model:</strong>
+                <p style="margin-top: 0.5rem;">
+                    The Copernicus model proves that mandatory speed standards are achievable through coordinated international cooperation and sustained investment in infrastructure. The service has been activated thousands of times for floods, wildfires, earthquakes, and other disasters across Europe and beyond.
+                </p>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <span class="success-tag">✓ Free for All Member States</span>
+                <span class="success-tag">✓ 3-Hour FAM Standard</span>
+                <span class="success-tag">✓ Standardized Workflows</span>
+                <span class="success-tag">✓ International Cooperation</span>
+            </div>
+
+            <h3>Key Features</h3>
+            <p>
+                Copernicus uses multiple satellite systems (Sentinel-1 SAR, Sentinel-2 optical, and others) to ensure all-weather, day-night coverage. The service provides detailed damage assessment maps, reference maps, and delineation maps that rescue teams can use immediately.
+            </p>
+        </div>
+
+        <div class="intro-section" style="margin-top: 3rem;">
+            <h3 style="font-size: 2rem; color: #3b82f6; margin-bottom: 1rem;">The Benchmark is Clear</h3>
+            <p>
+                Three hours from disaster declaration to actionable satellite maps is not aspirational—it is <strong>proven and replicable</strong>. Any country serious about disaster preparedness should adopt this standard as a minimum requirement.
+            </p>
+            <p style="margin-top: 1rem;">
+                Both Japan and the EU have shown that when governments commit to making satellite data use mandatory through law and infrastructure, the technology delivers results that save lives.
+            </p>
+        </div>
+
+        <div class="button-container">
+            <a href="nepal.html" class="cta-button">Read Nepal Case Study →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Space Saves Lives Campaign | Making Satellite Data Mandatory for Disaster Response</p>
+    </footer>
+</body>
+</html>

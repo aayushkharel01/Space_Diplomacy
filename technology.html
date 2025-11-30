@@ -1,0 +1,401 @@
+<!-- ========================================
+     PAGE 3: TECHNOLOGY (technology.html)
+     ======================================== -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Technology - Space Saves Lives</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #9ca3af;
+            margin-bottom: 4rem;
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            border-left: 5px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .tech-card h2 {
+            font-size: 2.5rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .tech-card h3 {
+            font-size: 1.8rem;
+            color: #8b5cf6;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .capability-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-box {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid #3b82f6;
+            margin-top: 1rem;
+        }
+
+        .example-box h4 {
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .comparison-table {
+            margin-top: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+            margin-top: 2rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            color: #9ca3af;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🛰️ Space Saves Lives</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sop-page.html">What are SOPs?</a></li>
+                <li><a href="technology.html">Technology</a></li>
+                <li><a href="countries.html">Model Countries</a></li>
+                <li><a href="nepal.html">Nepal Case</a></li>
+                <li><a href="frameworks.html">Global Frameworks</a></li>
+                <li><a href="action.html">Take Action</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">Space Technology for Disasters</h1>
+        <p class="page-subtitle">The Tools That See Through the Destruction</p>
+
+        <div class="tech-card">
+            <h2>🛰️ Synthetic Aperture Radar (SAR)</h2>
+            <p>
+                Synthetic Aperture Radar (SAR) is one of the most valuable tools for disaster response. Unlike conventional optical satellites that require clear skies and daylight, SAR can see through clouds, heavy rain, smoke, and darkness, making it reliable during the exact conditions when disasters strike.
+            </p>
+            
+            <div style="margin-top: 1rem;">
+                <span class="capability-tag">All-Weather Imaging</span>
+                <span class="capability-tag">Day & Night Operation</span>
+                <span class="capability-tag">Cloud Penetration</span>
+                <span class="capability-tag">Smoke Detection</span>
+            </div>
+
+            <h3>Why SAR is Critical</h3>
+            <p>
+                This all-weather, day-night capability is crucial because many natural disasters—floods, tropical cyclones, earthquakes—occur during poor visibility conditions. When optical satellites are blind, SAR continues to deliver vital information.
+            </p>
+
+            <div class="example-box">
+                <h4>🌊 Example: 2022 Pakistan Floods</h4>
+                <p>
+                    The European Space Agency's Sentinel-1 SAR satellite mapped submerged villages and identified safe access routes for rescue teams, enabling coordinated relief efforts even as monsoon rains continued.
+                </p>
+            </div>
+
+            <div class="example-box">
+                <h4>🏚️ Example: 2010 Haiti Earthquake</h4>
+                <p>
+                    NASA's UAVSAR (Uninhabited Aerial Vehicle SAR) helped scientists detect subtle ground shifts and identify structurally unstable zones, improving safety assessments for rescue operations.
+                </p>
+            </div>
+        </div>
+
+        <div class="tech-card">
+            <h2>🌍 Earth Observation (EO) Satellites</h2>
+            <p>
+                Earth Observation satellites provide another essential set of capabilities. High-resolution optical satellites capture detailed images of buildings, roads, and terrain immediately after an event, creating before-and-after comparisons that are invaluable for damage assessment.
+            </p>
+
+            <div style="margin-top: 1rem;">
+                <span class="capability-tag">High Resolution Imagery</span>
+                <span class="capability-tag">Before/After Comparison</span>
+                <span class="capability-tag">Infrared Detection</span>
+                <span class="capability-tag">Heat Signature Tracking</span>
+            </div>
+
+            <h3>Optical Imaging</h3>
+            <div class="example-box">
+                <h4>🏗️ Example: 2023 Turkey–Syria Earthquake</h4>
+                <p>
+                    Maxar Technologies released sharp before-and-after imagery within hours. Rescue agencies used these images to locate collapsed neighborhoods and prioritize search efforts, directing limited resources to areas with the highest likelihood of survivors.
+                </p>
+            </div>
+
+            <h3>Infrared Sensors</h3>
+            <p>
+                EO satellites equipped with infrared sensors add another critical layer by detecting heat signatures.
+            </p>
+
+            <div class="example-box">
+                <h4>🔥 Example: 2019–2020 Australian Bushfires</h4>
+                <p>
+                    NASA's MODIS infrared sensors tracked the spread of flames, allowing firefighters to visualize the hottest and fastest-moving fire fronts even through thick smoke that would blind conventional observation methods.
+                </p>
+            </div>
+        </div>
+
+        <div class="tech-card">
+            <h2>📡 Global Navigation Satellite Systems (GNSS)</h2>
+            <p>
+                GNSS networks support disaster management by monitoring ocean movements, crustal shifts, and volcanic deformation with millimeter-level precision.
+            </p>
+
+            <div style="margin-top: 1rem;">
+                <span class="capability-tag">Millimeter Precision</span>
+                <span class="capability-tag">Tsunami Warning</span>
+                <span class="capability-tag">Volcanic Monitoring</span>
+                <span class="capability-tag">Tectonic Tracking</span>
+            </div>
+
+            <h3>Tsunami Early Warning</h3>
+            <div class="example-box">
+                <h4>🌊 Example: 2011 Tōhoku Earthquake & Tsunami</h4>
+                <p>
+                    GNSS-based DART (Deep-ocean Assessment and Reporting of Tsunamis) buoys provided early detection of abnormal ocean wave patterns. This system gave coastal communities precious additional minutes to evacuate before the devastating waves struck.
+                </p>
+            </div>
+
+            <h3>Volcanic Activity Monitoring</h3>
+            <div class="example-box">
+                <h4>🌋 Example: 2022 Mauna Loa Eruption</h4>
+                <p>
+                    USGS GNSS stations detected rapid ground inflation—a telltale sign of rising magma. This data enabled authorities to issue warnings well before lava flows reached populated areas, allowing for orderly evacuations and minimizing casualties.
+                </p>
+            </div>
+        </div>
+
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Disaster Type</th>
+                        <th>Best Technology</th>
+                        <th>Key Capability</th>
+                        <th>Response Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Floods</td>
+                        <td>SAR Imaging</td>
+                        <td>See through rain & clouds</td>
+                        <td>Hours after rainfall</td>
+                    </tr>
+                    <tr>
+                        <td>Earthquakes</td>
+                        <td>Optical + SAR</td>
+                        <td>Damage assessment</td>
+                        <td>Minutes to hours</td>
+                    </tr>
+                    <tr>
+                        <td>Wildfires</td>
+                        <td>Infrared EO</td>
+                        <td>Heat detection</td>
+                        <td>Continuous tracking</td>
+                    </tr>
+                    <tr>
+                        <td>Tsunamis</td>
+                        <td>GNSS Buoys</td>
+                        <td>Wave detection</td>
+                        <td>Minutes before impact</td>
+                    </tr>
+                    <tr>
+                        <td>Volcanic Eruptions</td>
+                        <td>GNSS Ground Stations</td>
+                        <td>Ground deformation</td>
+                        <td>Days to weeks ahead</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="button-container">
+            <a href="countries.html" class="cta-button">See Model Countries →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Space Saves Lives Campaign | Making Satellite Data Mandatory for Disaster Response</p>
+    </footer>
+</body>
+</html>
+
